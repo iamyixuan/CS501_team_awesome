@@ -19,14 +19,14 @@ class Supervisor:
         
     def train(self, train_loader, val_loader):
         num_iter = len(train_loader)
-
+        print("Start training...")
         for epoch in range(self.epochs):
             self.model.train()
             running_loss = []
-            for i in range(num_iter):
-                train_batch = train_loader[i]
-                x_train = train_batch["input"]
-                y_train = train_batch["output"]
+            for train in train_loader:
+                train_batch = train
+                x_train = train_batch["cloud_1"] 
+                y_train = train_batch["precipitation"].view(-1,)
                 self.optimizer.zero_grad()
                 out = self.model(x_train)
                 loss = self.loss_fn(out, y_train)
@@ -35,12 +35,14 @@ class Supervisor:
                 self.optimizer.step()
             
             self.model.eval()
-            val_data = val_loader[0]
-            x_val = val_data["input"]
-            y_val = val_data["output"]
-            pred_val = self.model(x_val)
-            val_loss = self.loss_fn(pred_val, y_val).item()
-            
+            for val in val_loader:
+                val_data = val
+                x_val = val_data["cloud_1"]
+                y_val = val_data["precipitation"].view(-1, )
+                pred_val = self.model(x_val)
+                val_loss = self.loss_fn(pred_val, y_val).item()
+                break
+                
             train_loss = np.mean(running_loss)
             print("Epoch %s: training loss is %.3f, validiation loss is %.3f" % (epoch, train_loss, val_loss))
 
