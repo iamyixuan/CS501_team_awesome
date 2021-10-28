@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from supervisor import Supervisor
 
 def main(args):
-    dataset = WeatherDataset("../../Processed Data/", 3, 12, 5)
+    dataset = WeatherDataset("../../Processed Data/cleaned_data/", 3, 12, 5)
     train_loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
     val_loader = DataLoader(dataset, batch_size=10)
 
