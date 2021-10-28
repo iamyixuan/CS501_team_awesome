@@ -25,7 +25,8 @@ class Supervisor:
             running_loss = []
             for train in train_loader:
                 train_batch = train
-                x_train = train_batch["cloud_1"] 
+                x_train = torch.cat((train_batch["cloud_1"], train_batch["cloud_2"], train_batch["cloud_3"],
+                                    train_batch["temperature"], train_batch["dew_point"]), axis=2) 
                 y_train = train_batch["precipitation"].view(-1,)
                 self.optimizer.zero_grad()
                 out = self.model(x_train)
@@ -37,7 +38,8 @@ class Supervisor:
             self.model.eval()
             for val in val_loader:
                 val_data = val
-                x_val = val_data["cloud_1"]
+                x_val = torch.cat((val_data["cloud_1"], val_data["cloud_2"], val_data["cloud_3"],
+                                    val_data["temperature"], val_data["dew_point"]), axis=2) 
                 y_val = val_data["precipitation"].view(-1, )
                 pred_val = self.model(x_val)
                 val_loss = self.loss_fn(pred_val, y_val).item()

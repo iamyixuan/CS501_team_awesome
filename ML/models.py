@@ -19,7 +19,7 @@ class RNN(nn.Module):
         self.hidden_size = hidden_size
         self.rnn = nn.RNN(input_size, hidden_size, num_layers, batch_first=True)
         self.linear = nn.Linear(hidden_size, output_size)
-        self.act = nn.Softmax()
+        self.act = nn.Softmax(dim=1)
 
     def forward(self, x):
         x, _ = self.rnn(x)

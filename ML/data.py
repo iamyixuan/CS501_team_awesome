@@ -14,19 +14,20 @@ class WeatherDataset(Dataset):
         self.seq_len = seq_len
         self.horizon = horizon
 
-        cloud_cover_dir = path + "ProcessedDataCLOUD/"
-        self.cloud_df = self.get_files(cloud_cover_dir + "FIRST/")
-        self.cloud_df2 = self.get_files(cloud_cover_dir + "SECOND/")
-        self.cloud_df3 = self.get_files(cloud_cover_dir + "THIRD/")
+        cloud_cover_dir = path 
+        self.cloud_df = self.get_files(cloud_cover_dir + "cloud1_cleaned/")
+        self.cloud_df2 = self.get_files(cloud_cover_dir + "cloud2_cleaned/")
+        self.cloud_df3 = self.get_files(cloud_cover_dir + "cloud3_cleaned/")
 
         prcp_dir = path + "FinalPtype/"
         self.prcp = self.get_files(prcp_dir)
 
-        temp_dir = path + "FINALTEMP/TEMP/"
+        temp_dir = path + "temp_cleaned/"
         self.temp = self.get_files(temp_dir)
 
-        dew_pt_dir = path + "FINALTEMP/DEWPOINT/"
+        dew_pt_dir = path + "dew_pt_cleaned/"
         self.dew_pt = self.get_files(dew_pt_dir) 
+
 
     def get_files(self, file_dir):
         filenames = sorted(glob.glob(file_dir + "*.csv")[:self.file_span])
@@ -47,7 +48,7 @@ class WeatherDataset(Dataset):
     
     def get_label(self, df):
         labels = []
-        for i in range(500):
+        for i in range(500): # number of samples to use
             for j in range(1, df.shape[1]):
                 tmp_label = df[(i + self.seq_len + self.horizon), j]
                 labels.append(tmp_label)
@@ -69,11 +70,11 @@ class WeatherDataset(Dataset):
         prcp = self.get_label(self.prcp)
         Tensor = torch.FloatTensor
         Long = torch.LongTensor
-        sample = {"cloud_1": Tensor(cloud_1[idx]), "cloud_2": Tensor(cloud_2[idx]), " cloud_3": Tensor(cloud_3[idx]), 
-        "temperature": temp, "dew_point": dew_pt, "precipitation": Long(prcp[idx])}
+        sample = {"cloud_1": Tensor(cloud_1[idx]), "cloud_2": Tensor(cloud_2[idx]), "cloud_3": Tensor(cloud_3[idx]), 
+        "temperature": Tensor(temp[idx]), "dew_point": Tensor(dew_pt[idx]), "precipitation": Long(prcp[idx])}
         return sample
         
 
 if __name__ == "__main__":
     dat = WeatherDataset("../../Processed Data/", 10, 12, 5)
-    print(dat[23])
+    print(dat[23]["temperature"].shape)

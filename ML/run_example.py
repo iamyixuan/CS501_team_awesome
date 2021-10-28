@@ -13,7 +13,7 @@ def main(args):
     train_loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
     val_loader = DataLoader(dataset, batch_size=10)
 
-    model = RNN(1, 3, 2, 6)
+    model = RNN(input_size=5, hidden_size=10, num_layers=2, output_size=6)
     trainer = Supervisor(model, args.epochs, args.batch_size, torch.optim.Adam, args.lr, nn.CrossEntropyLoss(), args.horizon)
     trainer.train(train_loader, val_loader)
 
