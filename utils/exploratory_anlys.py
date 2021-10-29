@@ -56,12 +56,8 @@ def make_files(path, mode, file_dir):
 
 
 if __name__ == "__main__":
-    make_files("../../Processed Data/FINALTEMP/DEWPOINT/", "temp", "../../Processed Data/dew_pt_cleaned/")
+    #make_files("../../Processed Data/FINALTEMP/DEWPOINT/", "temp", "../../Processed Data/dew_pt_cleaned/")
 
-    # df = concat_file("../../Processed Data/dew_pt_cleaned/")
-    # print(df.describe())
-
-
-
-
-
+    df = concat_file("../../Processed Data/dew_pt_cleaned/").values
+    plt.hist(df[:, 3], bins=100)
+    plt.show()
