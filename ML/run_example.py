@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from supervisor import Supervisor
 
 def main(args):
-    dataset = WeatherDataset("../../Processed Data/", args.file_span, args.seq_len, args.horizon)
+    dataset = WeatherDataset("../../Processed Data/cleand_data/", args.file_span, args.seq_len, args.horizon)
     train_loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
     val_loader = DataLoader(dataset, batch_size=10)
     if args.cell_type == "RNN":
