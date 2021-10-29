@@ -9,7 +9,7 @@ from torch.utils.data import DataLoader
 from supervisor import Supervisor
 
 def main(args):
-    dataset = WeatherDataset("../../Processed Data/cleaned_data/", args.file_span, args.seq_len, args.horizon)
+    dataset = WeatherDataset("../../Processed Data/", args.file_span, args.seq_len, args.horizon)
     train_loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
     val_loader = DataLoader(dataset, batch_size=10)
     if args.cell_type == "RNN":
@@ -21,7 +21,7 @@ def main(args):
     else:
         raise NameError("Specified cell type not recognized!")
     
-    trainer = Supervisor(model, args.epochs, args.batch_size, torch.optim.Adam, args.lr, nn.CrossEntropyLoss(), args.horizon)
+    trainer = Supervisor(model, args.epochs, args.batch_size, torch.optim.Adam, args.lr, nn.BCELoss(), args.horizon)
     trainer.train(train_loader, val_loader)
 
 
@@ -36,7 +36,7 @@ if __name__ == "__main__":
     parser.add_argument("--seq-len", default=12, type=int, help="sequence history to use")
     parser.add_argument("--hidden-size", default=10, type=int, help="num of hidden states")
     parser.add_argument("--num-layers", default=2, type=int, help="number of RNN layers")
-    parser.add_argument("--output-size", default=6, type=int, help="output size (depends on the task)")
+    parser.add_argument("--output-size", default=1, type=int, help="output size (depends on the task)")
 
     parser.add_argument("--cell-type", default="RNN", type=str, help="RNN cell type \in [RNN, LSTM, GRU]")
 

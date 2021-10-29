@@ -68,13 +68,14 @@ class WeatherDataset(Dataset):
         temp = self.get_data(self.temp)
         dew_pt = self.get_data(self.dew_pt)
         prcp = self.get_label(self.prcp)
+        prcp = np.where(prcp >= 1, 1, 0)
         Tensor = torch.FloatTensor
         Long = torch.LongTensor
         sample = {"cloud_1": Tensor(cloud_1[idx]), "cloud_2": Tensor(cloud_2[idx]), "cloud_3": Tensor(cloud_3[idx]), 
-        "temperature": Tensor(temp[idx]), "dew_point": Tensor(dew_pt[idx]), "precipitation": Long(prcp[idx])}
+        "temperature": Tensor(temp[idx]), "dew_point": Tensor(dew_pt[idx]), "precipitation": Tensor(prcp[idx])}
         return sample
         
 
 if __name__ == "__main__":
     dat = WeatherDataset("../../Processed Data/", 10, 12, 5)
-    print(dat[23]["temperature"].shape)
+    print(dat[23]["precipitation"].shape)

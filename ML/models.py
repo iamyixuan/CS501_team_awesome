@@ -19,7 +19,7 @@ class RNN(nn.Module):
         self.hidden_size = hidden_size
         self.rnn = nn.RNN(input_size, hidden_size, num_layers, batch_first=True)
         self.linear = nn.Linear(hidden_size, output_size)
-        self.act = nn.Softmax(dim=1)
+        self.act = nn.Sigmoid()
 
     def forward(self, x):
         x, _ = self.rnn(x)
@@ -36,7 +36,7 @@ class LSTM(nn.Module):
         self.hidden_size = hidden_size
         self.rnn = nn.LSTM(input_size, hidden_size, num_layers, batch_first=True)
         self.linear = nn.Linear(hidden_size, output_size)
-        self.act = nn.Softmax(dim=1)
+        self.act = nn.Sigmoid()
 
     def forward(self, x):
         x, _ = self.rnn(x)
@@ -53,7 +53,7 @@ class GRU(nn.Module):
         self.hidden_size = hidden_size
         self.rnn = nn.GRU(input_size, hidden_size, num_layers, batch_first=True)
         self.linear = nn.Linear(hidden_size, output_size)
-        self.act = nn.Softmax(dim=1)
+        self.act = nn.Sigmoid()
 
     def forward(self, x):
         x, _ = self.rnn(x)
