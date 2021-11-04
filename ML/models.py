@@ -3,13 +3,11 @@ import torch.nn as nn
 
 """
 Models:
-    RNN: standard RNN
+    RNN, LSTM, GRU:
         args:
             input_size: input sequence length
             hidden_size: number of hidden states
             output_size: output lenght
-    RNN with attention:
-    Transformer:
 """
 
 class RNN(nn.Module):

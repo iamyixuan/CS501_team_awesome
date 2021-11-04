@@ -8,6 +8,19 @@ from torch.utils.data import Dataset
 
 
 class WeatherDataset(Dataset):
+    """
+    Weather dataset class
+    Params:
+        path: file path
+        file_span: number of files to concatenate (one file per month)
+        seq_len: sequence length to feed into the RNN
+        horizon: steps ahead to predict
+    Methods:
+        get_files: concatenate selected files
+        get_data: prepare sequence instances with corresponding labels
+        __len__: return dataset size 
+        __getitem__: index samples
+    """
     def __init__(self, path, file_span, seq_len, horizon) -> None:
         super(WeatherDataset, self).__init__()
         self.file_span = file_span

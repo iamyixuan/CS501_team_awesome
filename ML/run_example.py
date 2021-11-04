@@ -9,7 +9,21 @@ from torch.utils.data import DataLoader
 from supervisor import Supervisor
 
 def main(args):
-    dataset = WeatherDataset("../../Processed Data/cleand_data/", args.file_span, args.seq_len, args.horizon)
+    """
+    main function to start training and testing:
+    Params:
+        args.batch_size: batch_size for training data.
+        args.epochs: number of epochs to iterate the entire training set over.
+        args.lr: optimizer's learning rate.
+        args.horizon: predicting horizon.
+        args.file_span: number of files to use.
+        args.hidden_size: size of hidden states.
+        args.num_layers: number of RNN layers.
+        args.output_size: network output size, default=1 for binary classification.
+        args.cell_type: RNN cell type \in [RNN, LSTM, GRU].
+
+    """
+    dataset = WeatherDataset("../../Processed Data/cleaned_data/", args.file_span, args.seq_len, args.horizon)
     train_loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
     val_loader = DataLoader(dataset, batch_size=10)
     if args.cell_type == "RNN":
