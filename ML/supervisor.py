@@ -18,6 +18,8 @@ class Supervisor:
         self.optimizer = optimizer(self.model.parameters(), lr=self.lr)
         
     def train(self, train_loader, val_loader):
+        f = open("output.txt", "a")
+        g = open("results.txt", "a")
         num_iter = len(train_loader)
         print("Start training...")
         for epoch in range(self.epochs):
@@ -42,12 +44,13 @@ class Supervisor:
                                     val_data["temperature"], val_data["dew_point"]), axis=2) 
                 y_val = val_data["precipitation"] # ground truth
                 pred_val = self.model(x_val) # model output
+                print('%.3f,%.3f' % (pred_val, y_val), file=g)
                 val_loss = self.loss_fn(pred_val, y_val).item()
                 break
                 
             train_loss = np.mean(running_loss)
             print("Epoch %s: training loss is %.3f, validiation loss is %.3f" % (epoch, train_loss, val_loss))
-            
+            print('%s,%.3f,%.3f' % (epoch, train_loss, val_loss), file=f)
 
     
     def predict(self, test_loader):
