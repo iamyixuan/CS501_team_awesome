@@ -40,13 +40,14 @@ class Supervisor:
                 val_data = val
                 x_val = torch.cat((val_data["cloud_1"], val_data["cloud_2"], val_data["cloud_3"],
                                     val_data["temperature"], val_data["dew_point"]), axis=2) 
-                y_val = val_data["precipitation"]
-                pred_val = self.model(x_val)
+                y_val = val_data["precipitation"] # ground truth
+                pred_val = self.model(x_val) # model output
                 val_loss = self.loss_fn(pred_val, y_val).item()
                 break
                 
             train_loss = np.mean(running_loss)
             print("Epoch %s: training loss is %.3f, validiation loss is %.3f" % (epoch, train_loss, val_loss))
+            
 
     
     def predict(self, test_loader):

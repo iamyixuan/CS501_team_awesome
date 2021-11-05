@@ -26,7 +26,7 @@ def main(args):
     print("Preparing training data...")
     dataset = WeatherDataset("../../Processed Data/cleaned_data/", args.file_span, args.seq_len, args.horizon)
     print("Preparing validation data...")
-    val_set = WeatherDataset("../../Processed Data/cleaned_val/", 5, args.seq_len, args.horizon)
+    val_set = WeatherDataset("../../Processed Data/cleaned_val/", 5, args.seq_len, args.horizon, mode="val")
     train_loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
     val_loader = DataLoader(val_set, batch_size=10)
     if args.cell_type == "RNN":
