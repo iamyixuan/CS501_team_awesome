@@ -20,12 +20,8 @@ f1=f1_score(true_val, pred_val, average=None)
 
 prec=average_precision_score(true_val, pred_val)
 
-#ROC using non threshold decisions method
-#roc=roc_auc_score(y, clf.decision_function(pred_val))
-# ROC using probability estimates method
-clf = LogisticRegression(solver="liblinear", random_state=0).fit(pred_val, true_val)
-roc=roc_auc_score(true_val, clf.predict_proba(pred_val)[:, 1])
-display = RocCurveDisplay.from_predictions(true_val, clf.predict_proba(pred_val)[:, 1])
+roc=roc_auc_score(true_val, pred_val)
+display = RocCurveDisplay.from_predictions(true_val, pred_val)
 plt.plot(display)
 plt.xlabel('False Positive Rate')
 plt.ylabel('True Positive Rate')
