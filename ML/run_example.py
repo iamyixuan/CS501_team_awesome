@@ -28,7 +28,7 @@ def main(args):
     print("Preparing validation data...")
     val_set = WeatherDataset("../../Processed Data/cleaned_val/", 5, args.seq_len, args.horizon, mode="val")
     train_loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=True)
-    val_loader = DataLoader(val_set, batch_size=10)
+    val_loader = DataLoader(val_set, batch_size=val_set.__len__())
     if args.cell_type == "RNN":
         model = RNN(input_size=5, hidden_size=10, num_layers=2, output_size=args.output_size)
     elif args.cell_type == "LSTM":
