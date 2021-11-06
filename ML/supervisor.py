@@ -47,11 +47,11 @@ class Supervisor:
                 break
                 
             train_loss = np.mean(running_loss)
-            np.savetxt("pred_vals.txt", pred_val.detach().numpy())
-            np.savetxt("y_vals.txt", y_val.detach().numpy())
+
             print("Epoch %s: training loss is %.3f, validiation loss is %.3f" % (epoch, train_loss, val_loss))
             print('%s,%.3f,%.3f' % (epoch, train_loss, val_loss), file=f)
-
+        np.savetxt("pred_vals.txt", pred_val.detach().numpy())
+        np.savetxt("y_vals.txt", y_val.detach().numpy())
     
     def predict(self, test_loader):
         pass    
