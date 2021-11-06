@@ -10,8 +10,8 @@ from sklearn.linear_model import LogisticRegression
 import matplotlib.pyplot as plt
 
 f = open("metrics_out.txt","a")
-pred_val=np.genfromtxt("results.txt", dtype=int64, encoding=None, delimiter=",")
-true_val=np.genfromtxt("y_vals.txt", dtype=int64, encoding=None, delimiter=",")
+pred_val=np.genfromtxt("results.txt", dtype=float64, encoding=None, delimiter=",")
+true_val=np.genfromtxt("y_vals.txt", dtype=float64, encoding=None, delimiter=",")
 
 acc=balanced_accuracy_score(true_val, pred_val)
 
