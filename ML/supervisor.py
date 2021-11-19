@@ -23,6 +23,11 @@ class Supervisor:
         
     def train(self, train_loader, val_loader):
         f = open("output.txt", "a")
+        g = "C:/Users/pjfar/Documents/CS_501/Project/CS501_team_awesome_new/CS501_team_awesome/Output Files/Model Outputs/pred_vals.txt"
+        h = "C:/Users/pjfar/Documents/CS_501/Project/CS501_team_awesome_new/CS501_team_awesome/Output Files/Model Outputs/y_vals.txt"
+        i = "C:/Users/pjfar/Documents/CS_501/Project/CS501_team_awesome_new/CS501_team_awesome/Output Files/Model Outputs/train_pred.txt"
+        j = "C:/Users/pjfar/Documents/CS_501/Project/CS501_team_awesome_new/CS501_team_awesome/Output Files/Model Outputs/train_y.txt"
+
         num_iter = len(train_loader)
         print("Start training...")
         for epoch in range(self.epochs):
@@ -58,8 +63,10 @@ class Supervisor:
 
             print("Epoch %s: training loss is %.3f, validiation loss is %.3f; training f1 %.3f val f1 %.3f" % (epoch, train_loss, val_loss.item(), train_f1, val_f1))
             print('%s,%.3f,%.3f' % (epoch, train_loss, val_loss.item()), file=f)
-        np.savetxt("pred_vals.txt", pred_val.detach().numpy())
-        np.savetxt("y_vals.txt", y_val.detach().numpy())
+        np.savetxt(g,pred_val.detach().numpy())
+        np.savetxt(h,y_val.detach().numpy())
+        np.savetxt(j,train_y)
+        np.savetxt(i,train_pred)
     
     def predict(self, test_loader):
         pass    
