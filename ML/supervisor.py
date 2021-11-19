@@ -29,6 +29,8 @@ class Supervisor:
             self.model.train()
             running_loss = []
             running_f1 = []
+            train_pred = []
+            train_y = []
             for x_train, y_train in train_loader:
                 self.optimizer.zero_grad()
                 out = self.model(x_train)
@@ -36,6 +38,8 @@ class Supervisor:
                 f1 = f1_score(y_train.detach().numpy(), np.where(out.detach().numpy() > 0.5, 1, 0))
                 running_loss.append(loss.item())
                 running_f1.append(f1)
+                train_pred.append(out.detach().numpy())
+                train_y.append(y_train.detach().numpy())
                 loss.backward()
                 self.optimizer.step()
 
@@ -45,7 +49,9 @@ class Supervisor:
                 val_loss = self.loss_fn(pred_val, y_val)
                 val_f1 = f1_score(y_val.detach().numpy(), np.where(pred_val.detach().numpy()> 0.5, 1, 0))
 
-                
+            train_pred = np.concatenate(train_pred)
+            train_y = np.concatenate(train_y)
+
             train_loss = np.mean(running_loss)
             train_f1 = np.mean(running_f1)
             self.scheduler.step(val_loss)
